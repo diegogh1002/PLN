@@ -1,0 +1,54 @@
+import string
+
+# ### medir consumo de memoria y tiempo
+import time
+import tracemalloc
+
+def tokenizador3(texto):
+
+    tracemalloc.start()
+    t_ini = time.time()
+
+    tokens = []
+    current_token = ""
+
+    if texto[-1] != ' ' and texto[-1] != '.':
+        texto = texto + '.'
+        print(texto)
+
+    for i in range(0, len(texto)):
+
+        if (texto[i] == ' ' or texto[i] == '.'):
+            if current_token != "":
+                tokens += [current_token]
+                current_token = ""
+
+        else:
+            current_token = current_token + texto[i]
+
+
+    t_fin = time.time()
+
+    actual, pico = tracemalloc.get_traced_memory()
+
+    return tokens
+
+texto = "..VOy a repRobar . Si no .... EstuDio PLN"
+texto2 = tokenizador3(texto)
+print(tokenizador3(texto))
+
+#####################################################################################
+####    Convertidor de Mayusculas a minusculas
+###     Silla - silla
+
+def AMinusculas(texto): 
+    letras =''
+    for letra in texto:
+        if ord(letra) >= 65 and ord(letra) <=90:
+            letra = chr(ord(letra) +32)
+        letras += letra
+    return letras
+
+
+
+print(AMinusculas(texto2))

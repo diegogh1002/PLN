@@ -1,0 +1,38 @@
+import string
+
+# ### medir consumo de memoria y tiempo
+import time
+import tracemalloc
+
+def tokenizador3(texto):
+
+    tracemalloc.start()
+    t_ini = time.time()
+
+    tokens = []
+    current_token = ""
+
+    if texto[-1] != ' ' and texto[-1] != '.':
+        texto = texto + '.'
+        print(texto)
+
+    for i in range(0, len(texto)):
+
+        if (texto[i] == ' ' or texto[i] == '.'):
+            if current_token != "":
+                tokens += [current_token]
+                current_token = ""
+
+        else:
+            current_token = current_token + texto[i]
+
+
+    t_fin = time.time()
+
+    actual, pico = tracemalloc.get_traced_memory()
+
+    return tokens
+
+texto = "Voy a reprobar . Si no .... Estudio PLN."
+
+print(tokenizador3(texto))
