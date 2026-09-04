@@ -7,7 +7,7 @@ import tracemalloc
 def tokenizador3(texto):
 
     tokens = []
-    current_token = "" 
+    token = "" 
     
     delimiters = string.whitespace + string.punctuation + string.digits
 
@@ -18,12 +18,12 @@ def tokenizador3(texto):
     for i in range(0, len(texto)):
 
         if (texto[i] == ' ' or texto[i] == '.'):
-            if current_token != "":
-                tokens += [current_token]
-                current_token = ""
+            if token != "":
+                tokens += [token]
+                token = ""
         else:
             if texto[i] not in delimiters:
-                current_token = current_token + texto[i]
+                token = token + texto[i]
 
     return tokens
 
