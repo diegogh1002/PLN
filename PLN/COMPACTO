@@ -15,9 +15,7 @@ def tokenizador(texto):
 
         if 65 <= codigo <= 90 or codigo in [193, 201, 205, 211, 218]:
             letra = chr(codigo + 32)
-
         letras += letra
-
     texto = letras
 
     # Tokenizador
@@ -36,10 +34,8 @@ def tokenizador(texto):
     if current_token:
         tokens += [current_token]
 
-    # Stop words
-    stop_words = ["el", "que", "la", "lo", "los", "las",
-                  "de", "del", "en", "a", "un", "uno",
-                  "es", "con", "para", "se", "al"]
+    # Eliminador de Stop words
+    stop_words = ["el", "que", "la", "lo", "los", "las", "de", "del", "en", "a", "un", "uno", "es", "con", "para", "se", "al"]
 
     tokens_nuevos = []
     for token in tokens:
