@@ -6,12 +6,8 @@ import tracemalloc
 
 def tokenizador3(texto):
 
-    tracemalloc.start()
-    t_ini = time.time()
-
     tokens = []
-    current_token = ""
-    
+    current_token = "" 
     
     delimiters = string.whitespace + string.punctuation + string.digits
 
@@ -28,10 +24,6 @@ def tokenizador3(texto):
         else:
             if texto[i] not in delimiters:
                 current_token = current_token + texto[i]
-
-    t_fin = time.time()
-
-    actual, pico = tracemalloc.get_traced_memory()
 
     return tokens
 
@@ -70,8 +62,6 @@ def AMinusculas(texto):
 
     return letras
 
-
-
 #####################################################################################
 ####    Eliminador de Stop Words
 
@@ -88,15 +78,23 @@ def eliminador_stopwords(tokens):
 
 
 
-texto = "..VOy a la rÉpRob4#$#$#546ar / % . el  S6#%#5i.  6  88808 no .... Es#%#53t678uDio PLN"
+texto = "..VOy a la rÉpRob4#$#$#546ar / % . el  S6#%#5í.  6  88808 no .... Es#%#53t678uDio PLN"
 
+tracemalloc.start()
+t_ini = time.time()
 
-print("Original: ", texto)
 texto = AMinusculas(texto)
-print("Minúsculas: ", texto)
 texto = tokenizador3(texto)
 texto = eliminador_stopwords(texto)
+
+t_fin = time.time()
+actual, pico = tracemalloc.get_traced_memory()
+
+print("El tiempo de ejecución fue de:", t_fin - t_ini, "segundos")
+print("La memoria pico fue de:", pico / 10**3, "Kb")
+print("La memoria actual es de:", actual / 10**3, "Kb")
+
+print("Original: ", texto)
+
 print("Tokenizado: ", texto)
-
-
 
