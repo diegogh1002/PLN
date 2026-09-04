@@ -3,7 +3,7 @@ import time
 import tracemalloc
 
 
-def procesar_texto(texto):
+def tokenizador(texto):
 
     tracemalloc.start()
     t_ini = time.time()
@@ -60,4 +60,4 @@ def procesar_texto(texto):
 texto = "..VOy a la rÉpRob4#$#$#546ar / % . el S6#%#5í. 6 88808 no .... Es#%#53t678uDio PLN...979"
 
 print("Original:", texto)
-texto = procesar_texto(texto)
+texto = tokenizador(texto)
