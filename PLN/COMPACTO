@@ -1,0 +1,63 @@
+import string
+import time
+import tracemalloc
+
+
+def procesar_texto(texto):
+
+    tracemalloc.start()
+    t_ini = time.time()
+
+    # Mayúsculas a minúsculas
+    letras = ''
+    for letra in texto:
+        codigo = ord(letra)
+
+        if 65 <= codigo <= 90 or codigo in [193, 201, 205, 211, 218]:
+            letra = chr(codigo + 32)
+
+        letras += letra
+
+    texto = letras
+
+    # Tokenizador
+    tokens = []
+    current_token = ""
+    delimiters = string.whitespace + string.punctuation + string.digits
+
+    for letra in texto + '.':
+        if letra == ' ' or letra == '.':
+            if current_token:
+                tokens += [current_token]
+                current_token = ""
+        elif letra not in delimiters:
+            current_token += letra
+
+    if current_token:
+        tokens += [current_token]
+
+    # Stop words
+    stop_words = ["el", "que", "la", "lo", "los", "las",
+                  "de", "del", "en", "a", "un", "uno",
+                  "es", "con", "para", "se", "al"]
+
+    tokens_nuevos = []
+    for token in tokens:
+        if token not in stop_words:
+            tokens_nuevos += [token]
+
+    t_fin = time.time()
+    actual, pico = tracemalloc.get_traced_memory()
+
+    print("Tiempo:", t_fin - t_ini, "segundos")
+    print("Memoria pico:", pico / 10**3, "Kb")
+    print("Memoria actual:", actual / 10**3, "Kb")
+    print("Tokenizado:", tokens_nuevos)
+
+    return tokens_nuevos
+
+
+texto = "..VOy a la rÉpRob4#$#$#546ar / % . el S6#%#5í. 6 88808 no .... Es#%#53t678uDio PLN...979"
+
+print("Original:", texto)
+texto = procesar_texto(texto)
