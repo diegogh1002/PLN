@@ -11,6 +11,9 @@ def tokenizador3(texto):
 
     tokens = []
     current_token = ""
+    
+    
+    delimiters = string.whitespace + string.punctuation + string.digits
 
     if texto[-1] != ' ' and texto[-1] != '.':
         texto = texto + '.'
@@ -23,8 +26,8 @@ def tokenizador3(texto):
                 tokens += [current_token]
                 current_token = ""
         else:
-            current_token = current_token + texto[i]
-
+            if texto[i] not in delimiters:
+                current_token = current_token + texto[i]
 
     t_fin = time.time()
 
@@ -33,27 +36,66 @@ def tokenizador3(texto):
     return tokens
 
 
-
 #####################################################################################
 ####    Convertidor de Mayusculas a minusculas
 ###     Silla - silla
 
 def AMinusculas(texto): 
-    letras =''
+    letras = ''
+
     for letra in texto:
-        if ord(letra) >= 65 and ord(letra) <=90:
-            letra = chr(ord(letra) +32)
+
+        # A-Z
+        if ord(letra) >= 65 and ord(letra) <= 90:
+            letra = chr(ord(letra) + 32)
+        # Á É Í Ó Ú 
+        elif ord(letra) == 193:
+            letra = 'á'
+        elif ord(letra) == 201:
+            letra = 'é'
+        elif ord(letra) == 205:
+            letra = 'í'
+        elif ord(letra) == 211:
+            letra = 'ó'
+        elif ord(letra) == 218:
+            letra = 'ú'
+        # Ü
+        elif ord(letra) == 220:
+            letra = 'ü'
+        # Ñ
+        elif ord(letra) == 209:
+            letra = 'ñ'
+
         letras += letra
+
     return letras
 
 
 
+#####################################################################################
+####    Eliminador de Stop Words
 
-texto = "..VOy a repRobar . Si no .... EstuDio PLN"
+def eliminador_stopwords(tokens):
+
+    stop_words = ["el", "que", "la", "lo", "los", "las",
+                  "de", "del", "en", "a", "un", "uno",
+                  "es", "con", "para", "se", "al"]
+    tokens_nuevos = []
+    for token in tokens:
+        if token not in stop_words:
+            tokens_nuevos += [token]
+    return tokens_nuevos
+
+
+
+texto = "..VOy a la rÉpRob4#$#$#546ar / % . el  S6#%#5i.  6  88808 no .... Es#%#53t678uDio PLN"
+
+
 print("Original: ", texto)
 texto = AMinusculas(texto)
 print("Minúsculas: ", texto)
 texto = tokenizador3(texto)
+texto = eliminador_stopwords(texto)
 print("Tokenizado: ", texto)
 
 
