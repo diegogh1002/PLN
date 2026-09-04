@@ -34,32 +34,14 @@ def tokenizador3(texto):
 
 def AMinusculas(texto): 
     letras = ''
-
     for letra in texto:
-
         # A-Z
         if ord(letra) >= 65 and ord(letra) <= 90:
             letra = chr(ord(letra) + 32)
         # Á É Í Ó Ú 
-        elif ord(letra) == 193:
-            letra = 'á'
-        elif ord(letra) == 201:
-            letra = 'é'
-        elif ord(letra) == 205:
-            letra = 'í'
-        elif ord(letra) == 211:
-            letra = 'ó'
-        elif ord(letra) == 218:
-            letra = 'ú'
-        # Ü
-        elif ord(letra) == 220:
-            letra = 'ü'
-        # Ñ
-        elif ord(letra) == 209:
-            letra = 'ñ'
-
+        elif ord(letra) in [193, 201, 205, 211, 218]:
+          letra = chr(ord(letra) + 32)
         letras += letra
-
     return letras
 
 #####################################################################################
