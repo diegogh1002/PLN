@@ -72,16 +72,19 @@ def eliminador_stopwords(tokens):
 ####    Lematizador de palabras
 
 def aplicar_reglas(palabra):
-    ## Verbos terminando en en "ando"
+    ## Verbos terminando en "ando"
     n = len(palabra)
-    if palabra[n-5:n] == "ando" and n > 5:
-        return palabra[0:n-5] + "ar"
+    if palabra[n-4:n] == "ando" and n > 5:
+        return palabra[0:n-4] + "ar"
+
     ## Verbos terminando en "iendo"
-    if palabra[n-6:n] == "iendo" and n > 6:
-        return palabra[0:n-6] + "er"
+    if palabra[n-5:n] == "iendo" and n > 6:
+        return palabra[0:n-5] + "er"
+
     ## Verbos terminando en "es"
     if palabra[n-2:n] == "es" and n > 3:
         return palabra[0:n-2]
+
     ## Verbos terminando en "s"
     if palabra[n-1:n] == "s" and n > 1:
         return palabra[0:n-1]
@@ -105,6 +108,9 @@ def aplicar_reglas(palabra):
 
     if palabra[n-4:n] == "emos" and n > 5:
         return palabra[0:n-4]
+
+    if palabra[n-3:n] == "éis" and n > 5:
+        return palabra[0:n-3]
 
     if palabra[n-2:n] == "án" and n > 4:
         return palabra[0:n-2]
