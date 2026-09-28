@@ -26,7 +26,7 @@ def tokenizador3(texto):
     for i in range(0, len(texto)):
 
         #if (texto[i] == ' ' or texto[i] == '.'):
-        if (texto[i] == ' ' or texto[i] == '.' or texto[i] == '\n'):
+        if (texto[i] == ' ' or texto[i] == '.' or texto[i] == '\n' or texto[i] == '\r'):
             if token != "":
                 tokens += [token]
                 token = ""
