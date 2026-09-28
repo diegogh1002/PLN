@@ -861,4 +861,10 @@ lemas_excepciones = {
     "incluyeron": "incluir",
     "incluyera": "incluir",
     "incluyeran": "incluir",
+    
+    # =========================================================
+    # OTRAS EXCEPCIONES
+    "más": "más",
+    "análisis": "análisis",
+    "importante": "importante",
 }
