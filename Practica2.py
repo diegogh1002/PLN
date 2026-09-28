@@ -81,11 +81,11 @@ def aplicar_reglas(palabra):
     if palabra[n-5:n] == "iendo" and n > 6:
         return palabra[0:n-5] + "er"
 
-    ## Palabras terminando en "es"
+    ## Verbos terminando en "es"
     if palabra[n-2:n] == "es" and n > 3:
-        return palabra[0:n-2] + "e"
+        return palabra[0:n-2]
 
-    ## Palabras terminando en "s"
+    ## Verbos terminando en "s"
     if palabra[n-1:n] == "s" and n > 1:
         return palabra[0:n-1]
 

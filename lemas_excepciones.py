@@ -867,4 +867,9 @@ lemas_excepciones = {
     "más": "más",
     "análisis": "análisis",
     "importante": "importante",
+    "pacientes": "paciente",
+    "importantes": "importante",
+    "saludables": "saludable",
+    "nutrientes": "nutriente",
+    "diferentes": "diferente",
 }
