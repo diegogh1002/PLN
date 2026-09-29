@@ -1,5 +1,5 @@
 #Diccionario de excepciones para lematizador
-
+#
 lemas_excepciones = {
 
     # =========================================================
