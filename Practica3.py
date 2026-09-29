@@ -324,10 +324,10 @@ while True:
 
         # Buscar la palabra lematizada
         if palabra_lematizada in vectores:
-            print(f"Vector de la palabra '{palabra_lematizada}': "f"{vectores[palabra_lematizada]}")
+            print(f"Vector de la palabra lematizada '{palabra_lematizada}': "f"{vectores[palabra_lematizada]}")
 
         else:
-            print(f"La palabra '{palabra_lematizada}' no existe en el documento.")
+            print(f"La palabra lematizada '{palabra_lematizada}' no existe en el documento.")
             # Crear un nuevo vector con una posición adicional
             vector_nuevo = [0] * (len(vectores) + 1)
             # Poner 1 en la ultima posición
@@ -337,7 +337,7 @@ while True:
                 vectores[palabra_existente] = (vectores[palabra_existente] + [0])
             # Agregar la nueva palabra y su vector
             vectores[palabra_lematizada] = vector_nuevo
-            print(f"Vector de la palabra agregada "f"'{palabra_lematizada}': "f"{vectores[palabra_lematizada]}")
+            print(f"Vector de la palabra lematizada agregada "f"'{palabra_lematizada}': "f"{vectores[palabra_lematizada]}")
 
     else:
         print("No se realizará la búsqueda de palabras en el documento.")
