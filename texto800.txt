@@ -1,0 +1,13 @@
+La tecnología forma parte de nuestra vida cotidiana y permite realizar diferentes actividades de manera más rápida y eficiente. Los dispositivos electrónicos facilitan la comunicación entre las personas y permiten acceder a grandes cantidades de información.
+
+El análisis de datos ayuda a encontrar patrones y relaciones dentro de grandes conjuntos de información. Mediante diferentes técnicas es posible transformar los datos en información útil para tomar mejores decisiones.
+
+La ciencia de datos combina conocimientos de matemáticas, estadística, programación y aprendizaje automático. Estas herramientas permiten desarrollar modelos capaces de analizar información, realizar predicciones y encontrar soluciones a diferentes problemas.
+
+El procesamiento del lenguaje natural permite que las computadoras trabajen con textos escritos en lenguaje humano. Para procesar un texto es necesario realizar diferentes etapas, como la tokenización, la eliminación de palabras vacías, la normalización y la lematización.
+
+La tokenización consiste en dividir un texto en unidades más pequeñas llamadas tokens. Después se pueden eliminar palabras que no aportan información relevante para el análisis. Finalmente, la lematización permite obtener la forma base de las palabras.
+
+El aprendizaje automático utiliza datos para construir modelos que pueden aprender patrones. Estos modelos se aplican en diferentes áreas, como la clasificación, la predicción, el reconocimiento de imágenes y el procesamiento de textos.
+
+El análisis de información continúa creciendo debido a la cantidad de datos generados diariamente. Por esta razón, es importante desarrollar herramientas capaces de almacenar, procesar y analizar grandes cantidades de información de manera eficiente.
