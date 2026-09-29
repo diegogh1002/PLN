@@ -5,11 +5,6 @@ from lemas_excepciones import lemas_excepciones
 import time
 import tracemalloc
 
-## para generar pdf
-from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Paragraph
-from reportlab.lib.styles import getSampleStyleSheet
-
 #####################################################################################
 ####    Tokenizador de palabras
 def tokenizador3(texto):
@@ -84,32 +79,7 @@ def aplicar_reglas(palabra):
     ## Verbos terminando en "s"
     if palabra[n-1:n] == "s" and n > 1:
         return palabra[0:n-1]
-
-    # AGREGAR: pasado
-    if palabra[n-4:n] == "aron" and n > 5:
-        return palabra[0:n-4] + "ar"
-
-    if palabra[n-5:n] == "ieron" and n > 6:
-        return palabra[0:n-5] + "er"
-
-    # AGREGAR: futuro
-    if palabra[n-1:n] == "é" and n > 4:
-        return palabra[0:n-1]
-
-    if palabra[n-2:n] == "ás" and n > 4:
-        return palabra[0:n-2]
-
-    if palabra[n-1:n] == "á" and n > 4:
-        return palabra[0:n-1]
-
-    if palabra[n-4:n] == "emos" and n > 5:
-        return palabra[0:n-4]
-
-    if palabra[n-2:n] == "án" and n > 4:
-        return palabra[0:n-2]
-
     return palabra
-
 
 #Comprobar si estamos en las excepciones o estamos en las reglas
 def lematizador_reglas_excepciones(palabra):  
@@ -120,8 +90,8 @@ def lematizador_reglas_excepciones(palabra):
   
   
 #Lematizar
-def lematizar(palabras):
-    #palabras = tokenizador3(texto)
+def lematizar(texto):
+    palabras = tokenizador3(texto)
     texto_lematizado = [None]*len(palabras)
     for i in range(len(palabras)):
         palabra_lematizada = lematizador_reglas_excepciones(palabras[i])
@@ -154,83 +124,18 @@ def leer_texto(nombre_archivo):
 archivos = ["texto1.txt", "texto2.txt", "texto3.txt"]
 
 for archivo in archivos:
-
-    # AGREGAR: crear un PDF para cada archivo
-    pdf = SimpleDocTemplate(archivo.replace(".txt", ".pdf"), pagesize=letter)
-    estilos = getSampleStyleSheet()
-    contenido = []
-
+    texto = leer_texto(archivo)
+    print("Original: ", texto)
     tracemalloc.start()
     t_ini = time.time()
-    texto = leer_texto(archivo)
-
-    print("\n" )
-    print("\n" )
-    print("\n" )
-    print("\n" + "=" * 90)
-    print("PROCESANDO:", archivo)
-    print("=" * 90)
-    print("Original: ", texto)
-
-    # AGREGAR AL PDF
-    contenido.append(Paragraph("PROCESANDO: " + archivo, estilos["Title"]))
-    contenido.append(Paragraph("Texto original:", estilos["Heading2"]))
-    contenido.append(Paragraph(texto.replace("\n", "<br/>"), estilos["BodyText"]))
-
     texto = AMinusculas(texto)
     texto = tokenizador3(texto)
-
     print("Número de tokens (palabras antes de eliminar stop words): ", len(texto))
-
-    # AGREGAR AL PDF
-    contenido.append(Paragraph(
-        "Número de tokens antes de eliminar stop words: " + str(len(texto)),
-        estilos["BodyText"]
-    ))
-
     texto = eliminador_stopwords(texto)
-
     print("Número de tokens (palabras después de eliminar stop words): ", len(texto))
-
-    # AGREGAR AL PDF
-    contenido.append(Paragraph(
-        "Número de tokens después de eliminar stop words: " + str(len(texto)),
-        estilos["BodyText"]
-    ))
-
     #t_fin = time.time()
     #actual, pico = tracemalloc.get_traced_memory()
     #print("El tiempo de ejecución fue de:", t_fin - t_ini, "segundos")
     #print("La memoria pico fue de:", pico / 10**3, "Kb")
     #print("La memoria actual es de:", actual / 10**3, "Kb")
     #print("Tokenizado: ", texto)
-
-    texto = lematizar(texto)
-
-    t_fin = time.time()
-    actual, pico = tracemalloc.get_traced_memory()
-
-    print("El tiempo de ejecución fue de:", t_fin - t_ini, "segundos")
-    print("La memoria pico fue de:", pico / 10**3, "Kb")
-    print("La memoria actual es de:", actual / 10**3, "Kb")
-    print("Tokenizado y lematizado: ", texto)
-
-    # AGREGAR AL PDF
-    contenido.append(Paragraph(
-        "Tokenizado y lematizado:",
-        estilos["Heading2"]
-    ))
-    contenido.append(Paragraph(
-        " ".join(texto),
-        estilos["BodyText"]
-    ))
-    contenido.append(Paragraph(
-        "Tiempo de ejecución: " + str(t_fin - t_ini) + " segundos",
-        estilos["BodyText"]
-    ))
-    contenido.append(Paragraph(
-        "Memoria pico: " + str(pico / 10**3) + " Kb",
-        estilos["BodyText"]
-    ))
-    tracemalloc.stop()
-    pdf.build(contenido)
