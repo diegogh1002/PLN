@@ -13,54 +13,57 @@ from reportlab.lib.styles import getSampleStyleSheet
 
 
 #####################################################################################
-####    Tokenizador
+####    Tokenizador de palabras
 def tokenizador3(texto):
+
     tokens = []
-    palabra = ""
+    token = ""
 
-    for caracter in texto:
-        if caracter == " " or caracter == ".":
-            if palabra != "":
-                tokens.append(palabra)
-                palabra = ""
-        elif caracter not in string.punctuation and not caracter.isdigit():
-            palabra += caracter
+    delimiters = string.whitespace + string.punctuation + string.digits
 
-    if palabra != "":
-        tokens.append(palabra)
+    if texto == "":
+        return tokens
+
+    if texto[-1] != ' ' and texto[-1] != '.':
+        texto = texto + '.'
+
+    for i in range(0, len(texto)):
+
+        if (texto[i] == ' ' or texto[i] == '.'):
+            if token != "":
+                tokens += [token]
+                token = ""
+        else:
+            if texto[i] not in delimiters:
+                token = token + texto[i]
 
     return tokens
 
 
 #####################################################################################
-####    Pasar a minusculas
+####    Convertidor de Mayusculas a minusculas
 def AMinusculas(texto):
-    resultado = ""
 
-    for caracter in texto:
-        if "A" <= caracter <= "Z":
-            resultado += chr(ord(caracter) + 32)
-        elif caracter == "Á":
-            resultado += "á"
-        elif caracter == "É":
-            resultado += "é"
-        elif caracter == "Í":
-            resultado += "í"
-        elif caracter == "Ó":
-            resultado += "ó"
-        elif caracter == "Ú":
-            resultado += "ú"
-        else:
-            resultado += caracter
+    letras = ''
 
-    return resultado
+    for letra in texto:
+
+        if ord(letra) >= 65 and ord(letra) <= 90:
+            letra = chr(ord(letra) + 32)
+
+        elif ord(letra) in [193, 201, 205, 211, 218]:
+            letra = chr(ord(letra) + 32)
+
+        letras += letra
+
+    return letras
 
 
 #####################################################################################
-####    Eliminador de stopwords
+####    Eliminador de Stop Words
 def eliminador_stopwords(tokens):
 
-    stopwords = [
+    stop_words = [
         "a", "al", "algo", "algunas", "algunos", "ante", "antes", "como",
         "con", "contra", "cual", "cuando", "de", "del", "desde", "donde",
         "durante", "e", "el", "ella", "ellas", "ellos", "en", "entre",
@@ -73,30 +76,33 @@ def eliminador_stopwords(tokens):
         "tu", "tus", "un", "una", "uno", "unos", "y", "ya", "yo"
     ]
 
-    tokens_sin_stopwords = []
+    tokens_nuevos = []
 
     for token in tokens:
-        if token not in stopwords:
-            tokens_sin_stopwords.append(token)
 
-    return tokens_sin_stopwords
+        if token not in stop_words:
+            tokens_nuevos += [token]
+
+    return tokens_nuevos
 
 
 #####################################################################################
 ####    Aplicar reglas de lematizacion
 def aplicar_reglas(palabra):
 
-    if palabra.endswith("ando"):
-        return palabra[:-4] + "ar"
+    n = len(palabra)
 
-    elif palabra.endswith("iendo"):
-        return palabra[:-5] + "er"
+    if palabra[n-5:n] == "ando" and n > 5:
+        return palabra[0:n-5] + "ar"
 
-    elif palabra.endswith("es"):
-        return palabra[:-2]
+    elif palabra[n-6:n] == "iendo" and n > 6:
+        return palabra[0:n-6] + "er"
 
-    elif palabra.endswith("s"):
-        return palabra[:-1]
+    elif palabra[n-2:n] == "es" and n > 3:
+        return palabra[0:n-2]
+
+    elif palabra[n-1:n] == "s" and n > 1:
+        return palabra[0:n-1]
 
     elif palabra.endswith("aron"):
         return palabra[:-4] + "ar"
@@ -145,18 +151,21 @@ def lematizador_reglas_excepciones(palabra):
     if palabra in lemas_excepciones:
         return lemas_excepciones[palabra]
 
-    return aplicar_reglas(palabra)
+    else:
+        return aplicar_reglas(palabra)
 
 
 #####################################################################################
-####    Lematizador
+####    Lematizar
 def lematizar(palabras):
 
-    palabras_lematizadas = []
+    palabras_lematizadas = [None] * len(palabras)
 
-    for palabra in palabras:
-        palabra_lematizada = lematizador_reglas_excepciones(palabra)
-        palabras_lematizadas.append(palabra_lematizada)
+    for i in range(len(palabras)):
+
+        palabra_lematizada = lematizador_reglas_excepciones(palabras[i])
+
+        palabras_lematizadas[i] = palabra_lematizada
 
     return palabras_lematizadas
 
@@ -175,7 +184,12 @@ def leer_texto(nombre_archivo):
 ####    One Hot Encoding
 def one_hot_encoding(tokens):
 
-    tokens_unicos = list(set(tokens))
+    tokens_unicos = []
+
+    for token in tokens:
+
+        if token not in tokens_unicos:
+            tokens_unicos += [token]
 
     vectors = {}
 
@@ -196,10 +210,13 @@ def one_hot_encoding(tokens):
 ####    Procesar archivo
 
 pdf = SimpleDocTemplate("texto800.pdf", pagesize=letter)
+
 estilos = getSampleStyleSheet()
+
 contenido = []
 
 tracemalloc.start()
+
 t_ini = time.time()
 
 texto = leer_texto("texto800.txt")
@@ -208,17 +225,11 @@ print("\n" + "=" * 90)
 print("PROCESANDO:", "texto800.txt")
 print("=" * 90)
 
-contenido.append(
-    Paragraph("PROCESANDO: " + "texto800.txt", estilos["Title"])
-)
-
-contenido.append(
-    Paragraph("Texto original:", estilos["Heading2"])
-)
-
-contenido.append(
+contenido += [
+    Paragraph("PROCESANDO: texto800.txt", estilos["Title"]),
+    Paragraph("Texto original:", estilos["Heading2"]),
     Paragraph(texto.replace("\n", "<br/>"), estilos["BodyText"])
-)
+]
 
 texto = AMinusculas(texto)
 
@@ -229,12 +240,12 @@ print(
     len(texto)
 )
 
-contenido.append(
+contenido += [
     Paragraph(
         "Número de tokens antes de eliminar stop words: " + str(len(texto)),
         estilos["BodyText"]
     )
-)
+]
 
 texto = eliminador_stopwords(texto)
 
@@ -243,12 +254,12 @@ print(
     len(texto)
 )
 
-contenido.append(
+contenido += [
     Paragraph(
         "Número de tokens después de eliminar stop words: " + str(len(texto)),
         estilos["BodyText"]
     )
-)
+]
 
 texto = lematizar(texto)
 
@@ -276,33 +287,18 @@ print(
     "Kb"
 )
 
-contenido.append(
-    Paragraph(
-        "Tokenizado y lematizado:",
-        estilos["Heading2"]
-    )
-)
-
-contenido.append(
-    Paragraph(
-        " ".join(texto),
-        estilos["BodyText"]
-    )
-)
-
-contenido.append(
+contenido += [
+    Paragraph("Tokenizado y lematizado:", estilos["Heading2"]),
+    Paragraph(" ".join(texto), estilos["BodyText"]),
     Paragraph(
         "Tiempo de ejecución: " + str(t_fin - t_ini) + " segundos",
         estilos["BodyText"]
-    )
-)
-
-contenido.append(
+    ),
     Paragraph(
         "Memoria pico: " + str(pico / 10**3) + " Kb",
         estilos["BodyText"]
     )
-)
+]
 
 tracemalloc.stop()
 
@@ -315,30 +311,54 @@ pdf.build(contenido)
 while True:
 
     print("¿Desea saber si existe una palabra en el documento? (s/n): ")
+
     respuesta = input().lower()
 
     if respuesta == "s":
-        palabra = input("Ingrese la palabra a buscar: ")
-        palabra = AMinusculas(palabra)
-        palabra_lematizada = lematizar([palabra])[0]
 
-        # Buscar la palabra lematizada
-        if palabra_lematizada in vectores:
-            print(f"Vector de la palabra lematizada '{palabra_lematizada}': "f"{vectores[palabra_lematizada]}")
+        palabra = input("Ingrese la palabra a buscar: ")
+
+        palabra = AMinusculas(palabra)
+
+        palabra = tokenizador3(palabra)
+
+        if len(palabra) > 0:
+
+            palabra_lematizada = lematizar(palabra)[0]
+
+            if palabra_lematizada in vectores:
+
+                print(
+                    f"Vector de la palabra lematizada '{palabra_lematizada}': "
+                    f"{vectores[palabra_lematizada]}"
+                )
+
+            else:
+
+                vector_nuevo = [0] * (len(vectores) + 1)
+
+                vector_nuevo[len(vectores)] = 1
+
+                for palabra_existente in vectores:
+
+                    vectores[palabra_existente] = (
+                        vectores[palabra_existente] + [0]
+                    )
+
+                vectores[palabra_lematizada] = vector_nuevo
+
+                print(
+                    f"Vector de la palabra lematizada agregada "
+                    f"'{palabra_lematizada}': "
+                    f"{vectores[palabra_lematizada]}"
+                )
 
         else:
-            print(f"La palabra lematizada '{palabra_lematizada}' no existe en el documento.")
-            # Crear un nuevo vector con una posición adicional
-            vector_nuevo = [0] * (len(vectores) + 1)
-            # Poner 1 en la ultima posición
-            vector_nuevo[len(vectores)] = 1
-            # Agregar 0 a los vectores que ya existían
-            for palabra_existente in vectores:
-                vectores[palabra_existente] = (vectores[palabra_existente] + [0])
-            # Agregar la nueva palabra y su vector
-            vectores[palabra_lematizada] = vector_nuevo
-            print(f"Vector de la palabra lematizada agregada "f"'{palabra_lematizada}': "f"{vectores[palabra_lematizada]}")
+
+            print("No se encontró una palabra válida para buscar.")
 
     else:
+
         print("No se realizará la búsqueda de palabras en el documento.")
+
         break

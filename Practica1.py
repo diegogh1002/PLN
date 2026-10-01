@@ -61,81 +61,46 @@ def eliminador_stopwords(tokens):
             tokens_nuevos += [token]
     return tokens_nuevos
 
-
-#####################################################################################
-####    Lematizador de palabras
-
-def aplicar_reglas(palabra):
-    ## Verbos terminando en en "ando"
-    n = len(palabra)
-    if palabra[n-5:n] == "ando" and n > 5:
-        return palabra[0:n-5] + "ar"
-    ## Verbos terminando en "iendo"
-    if palabra[n-6:n] == "iendo" and n > 6:
-        return palabra[0:n-6] + "er"
-    ## Verbos terminando en "es"
-    if palabra[n-2:n] == "es" and n > 3:
-        return palabra[0:n-2]
-    ## Verbos terminando en "s"
-    if palabra[n-1:n] == "s" and n > 1:
-        return palabra[0:n-1]
-    return palabra
-
-#Comprobar si estamos en las excepciones o estamos en las reglas
-def lematizador_reglas_excepciones(palabra):  
-    if palabra in lemas_excepciones:
-        return lemas_excepciones[palabra]
-    else:
-        return aplicar_reglas(palabra)
-  
-  
-#Lematizar
-def lematizar(texto):
-    palabras = tokenizador3(texto)
-    texto_lematizado = [None]*len(palabras)
-    for i in range(len(palabras)):
-        palabra_lematizada = lematizador_reglas_excepciones(palabras[i])
-        #print (palabra_lematizada)
-        texto_lematizado[i] = palabra_lematizada
-    return texto_lematizado
-        
-
-#for documentos in corpus:
-    #print(lematizador(documentos))
-
-
-#####################################################################################
-####    Leer texto de un archivo
-def leer_texto(nombre_archivo):
-
-    with open(nombre_archivo, "r", encoding="utf-8") as archivo:
-        texto = archivo.read()
-    return texto
-
-
-
-
-
 #####################################################################################
 ####    Main
 
-#texto = "..VOy a la rÉpRob4#$#$#546ar / % . el  S6#%#5í.  6  88808 no .... Es#%#53t678uDio PLN...979"
+texto = """..VOy a la rÉpRob4#$#$#546ar / % . el S6#%#5í. 6 88808 no .... Es#%#53t678uDio PLN...979
 
-archivos = ["texto1.txt", "texto2.txt", "texto3.txt"]
+H0L4!! La CIENCIA de D4T0S permite analizar información!!! Los estudiantes están estudiando programación, mientras los profesores están explicando conceptos importantes. 12345 ###
 
-for archivo in archivos:
-    texto = leer_texto(archivo)
-    print("Original: ", texto)
-    tracemalloc.start()
-    t_ini = time.time()
-    texto = AMinusculas(texto)
-    texto = tokenizador3(texto)
-    print("Número de tokens (palabras antes de eliminar stop words): ", len(texto))
-    texto = eliminador_stopwords(texto)
-    print("Número de tokens (palabras después de eliminar stop words): ", len(texto))
-    #t_fin = time.time()
-    #actual, pico = tracemalloc.get_traced_memory()
-    #print("El tiempo de ejecución fue de:", t_fin - t_ini, "segundos")
-    #print("La memoria pico fue de:", pico / 10**3, "Kb")
-    #print("La memoria actual es de:", actual / 10**3, "Kb")
-    #print("Tokenizado: ", texto)
+L@s alumn0s están trabajand0 con Python!!! Algunos están investigando algoritmos, otros están desarrollando aplicaciones... La información contiene errores como d@t0s, pr0gram4ción, an4lisis y c0nocimiento.
+
+ÁRBOL árbol ÁRB0L... CIENCIA ciencia C1ENCIA... MÉXICO méxico M3XIC0... INFORMACIÓN informaci0n INFORM4CIÓN!!!
+
+Estudiando, caminando, trabajando, programando, aprendiendo, comiendo, escribiendo y leyendo. Casas, libros, árboles, estudiantes, profesores, computadoras, programas, modelos, algoritmos, datos, sistemas.
+
+@@@ ### $$$ %%% &&& /// +++ === *** !!! ??? ... 123 456 789 2026 98765.
+
+El estudiante está leyendo un documento y está escribiendo información para su proyecto. La computadora está ejecutando instrucciones, mientras el programa está eliminando palabras que no aportan información relevante.
+
+Los modelos están aprendiendo de los datos. Las empresas están utilizando inteligencia artificial para mejorar sus procesos. Los analistas están buscando soluciones y los investigadores están estudiando diferentes métodos.
+
+c4s4s libr0s estudi4ntes pr0fesores c0mputadoras alg0ritmos inf0rmación s0luciones resultad0s.
+
+El texto contiene palabras repetidas, repetidas, repetidas!!! También contiene frases con espacios     múltiples y signos... como estos!!!
+
+¿El programa puede identificar correctamente las palabras? ¿Puede eliminar los números? ¿Puede transformar las letras mayúsculas? ¿Puede eliminar las palabras de la lista de Stop Words?
+
+Finalmente, los estudiantes están preparando sus experimentos, analizando información, comparando resultados y realizando pruebas. FIN DE LA PRUEBA!!! 2026 ### @@@"""
+
+
+
+print("Original: ", texto)
+tracemalloc.start()
+t_ini = time.time()
+texto = AMinusculas(texto)
+texto = tokenizador3(texto)
+print("Número de tokens (palabras antes de eliminar stop words): ", len(texto))
+texto = eliminador_stopwords(texto)
+print("Número de tokens (palabras después de eliminar stop words): ", len(texto))
+t_fin = time.time()
+actual, pico = tracemalloc.get_traced_memory()
+print("El tiempo de ejecución fue de:", t_fin - t_ini, "segundos")
+print("La memoria pico fue de:", pico / 10**3, "Kb")
+print("La memoria actual es de:", actual / 10**3, "Kb")
+print("Tokenizado: ", texto)
