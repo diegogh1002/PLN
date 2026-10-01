@@ -19,7 +19,7 @@ def tokenizador3(texto):
     
     delimiters = string.whitespace + string.punctuation + string.digits
 
-    if texto[-1] != ' ' and texto[-1] != '.':
+    if texto[-1] != ' ' and texto[-1] != '.' and texto[-1] != '\n' and texto[-1] != '\r' and texto[-1] != '\t':
         texto = texto + '.'
         
 
