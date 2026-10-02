@@ -246,7 +246,7 @@ def ejercicio_3(vocabulario_general, palabra1, palabra2):
 
 #texto = "..VOy a la rÉpRob4#$#$#546ar / % . el  S6#%#5í.  6  88808 no .... Es#%#53t678uDio PLN...979"
 
-archivos = ["docuemntoa.txt", "documentob.txt", "documentoc.txt"]
+archivos = ["documentoa.txt", "documentob.txt", "documentoc.txt"]
 #archivos = ["/content/documentoa.txt", "/content/documentob.txt", "/content/documentoc.txt"]
 
 for archivo in archivos:
