@@ -4,6 +4,8 @@ from lemas_excepciones import lemas_excepciones
 # ### medir consumo de memoria y tiempo
 import time
 import tracemalloc
+import numpy as np
+from sklearn.decomposition import PCA
 
 #####################################################################################
 ####    Tokenizador de palabras
