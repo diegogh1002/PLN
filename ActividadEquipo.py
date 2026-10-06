@@ -217,6 +217,26 @@ def correos(tokens):
 
 
 #####################################################################################
+####    direcciones
+
+def direcciones(tokens):
+    direcciones = []
+
+    for i in range(len(tokens) - 1):
+        direccion = ""
+
+        if tokens[i] == "Calle" or tokens[i] == "Av." or tokens[i] == "Col." or tokens[i] == "Depto.":
+            direccion = tokens[i] + " " + tokens[i+1]
+
+        if tokens[i] == "C.P." and tokens[i+1].isnumeric() and len(tokens[i+1]) == 5:
+            direccion = tokens[i] + " " + tokens[i+1]
+
+        if len(direccion) >= 3:
+            direcciones += [direccion]
+
+    return direcciones
+
+#####################################################################################
 ####    Main
 
 #texto = "..VOy a la rÉpRob4#$#$#546ar / % . el  S6#%#5í.  6  88808 no .... Es#%#53t678uDio PLN...979"
