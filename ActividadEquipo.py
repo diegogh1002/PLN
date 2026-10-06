@@ -207,17 +207,13 @@ def telefonos(tokens):
 def correos(tokens):
     correos = []
 
-    for token in tokens:
-        correo+=token
+    for i in range(len(tokens) - 2):
 
-        if token[i+1] == "@" :
-            correo += token[i] token[i+1] token[i+2]
-        else:
-            correo = ""
-        if len(correo) >= 3:
+        if tokens[i+1] == "@":
+            correo = tokens[i] + tokens[i+1] + tokens[i+2]
             correos += [correo]
 
-    return correos      
+    return correos   
 
 
 #####################################################################################
