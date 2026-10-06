@@ -456,7 +456,7 @@ palabras, matriz, reducida, pca = ejercicio_3(vocabulario_general, PALABRA_1, PA
 ##############################################################
 
 
-# %% ============================================================================
+# ============================================================================
 # CELDA 4.0 - VERIFICACIÓN (ejecutar DESPUÉS de las celdas de los ejercicios 1, 2 y 3)
 # El ejercicio 4 no vuelve a definir nada de los ejercicios anteriores: usa las
 # funciones de las prácticas y los vocabularios que ya existen en el notebook.
@@ -521,7 +521,7 @@ print("Primeros 15 tokens del resultado final:", tokens_M[0:15])
 print("Resultado final completo:", tokens_M)
 
 
-# %% ============================================================================
+# ============================================================================
 # EJERCICIO 4 b) Puntajes por tema y clasificación automática
 # ===============================================================================
 
@@ -570,7 +570,7 @@ print("puntaje_C:", puntaje_C)
 print("Tema asignado automáticamente:", tema)
 
 
-# %% ============================================================================
+# ============================================================================
 # EJERCICIO 4 c) Vector de frecuencias con vocabulario_general
 # ===============================================================================
 
@@ -642,7 +642,8 @@ for i in range(len(palabras_top)):
 print("Representación implementada: Bolsa de Palabras (Bag of Words, BoW)")
 
 
-# %% ============================================================================
+
+# ============================================================================
 # EJERCICIO 4 d) Sustituir dinero->capital, gastos->desembolsos, ahorrar->reservar
 # ===============================================================================
 
@@ -693,5 +694,3 @@ if tema == tema2:
     print("La clasificación se MANTIENE.")
 else:
     print("La clasificación CAMBIA.")
-
-# %%
