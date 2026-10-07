@@ -169,17 +169,14 @@ def fechas(tokens):
 def telefonos(tokens):
     telefonos = []
 
-    for i in range(len(tokens)):
+    for i in range(len(tokens) - 2):
         telefono = ""
 
-        if tokens[i].isnumeric() or tokens[i] == "+":
-            telefono += tokens[i]
+        if tokens[i].isnumeric() and tokens[i + 1].isnumeric() and tokens[i + 2].isnumeric():
+            telefono = tokens[i] + tokens[i + 1] + tokens[i + 2]
 
-        elif tokens[i + 1] == "+" or tokens[i + 1] == "(" or tokens[i + 1] == ")" or tokens[i + 1] == "-" or tokens[i + 1].isdigit():
-                telefono += tokens[i] + tokens[i + 1]
-
-        else:
-            telefono = ""
+        elif tokens[i][0] == "+":
+            telefono = tokens[i] + tokens[i + 1] + tokens[i + 2]
 
         if len(telefono) >= 10:
             telefonos += [telefono]
