@@ -155,7 +155,7 @@ def telefonos(texto):
 
 def correos(texto):
     # usuario@dominio.mx / nombre+etiqueta@dominio.com
-     return re.findall(r"\b[\w]+@[\w.]+[\w]\b", texto)
+     return re.findall(r"[\w.+-]+@[\w.-]+[.]\w+", texto)
 
 
 # ==========================================================
@@ -202,14 +202,12 @@ def nombres(texto):
 
 def folios(texto):
     # INC-2026-1048, CJ-88-A, PC-SOP-17
-    folios = re.findall(r"\b[A-Z]+-[A-Z0-9]+-[A-Z0-9]+\b", texto)
+    folios = re.findall(r"\b[A-Z]+-[-?\w]+\b", texto)
 
     # HOGAR15
-    folios += re.findall(r"\b[A-Z]{3,}[0-9]\b", texto)
+    folios += re.findall(r"\b[A-Z]{3,}[0-9]+\b", texto)
 
     return folios
-
-
 # ==========================================================
 # MONTOS
 # ==========================================================
