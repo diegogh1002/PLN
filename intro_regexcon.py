@@ -143,7 +143,7 @@ def fechas(texto):
 
 def telefonos(texto):
     # 55 7342 9816 / +52 55 6001 4478 / +52 (442) 310-8820 / 800-555-0199 / 01 800 700 2026
-    telefonos = re.findall(r"\+?[0-9]{0,2}\s?\(?[0-9]{2,3}\)?[\s-][0-9]{3,4}[\s-][0-9]{4}\b", texto)
+    telefonos = re.findall(r"[+]?[0-9]{0,2}\s?[(]?[0-9]{2,3}[)]?[\s-][0-9]{3,4}[\s-][0-9]{4}\b", texto)
 
     # Quitamos el espacio que puede quedar al inicio
     for i in range(len(telefonos)):
@@ -155,7 +155,7 @@ def telefonos(texto):
 
 def correos(texto):
     # usuario@dominio.mx / nombre+etiqueta@dominio.com
-     return re.findall(r"[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+.[a-z]\b", texto)
+     return re.findall(r"\b[\w]+@[\w.]+[\w]\b", texto)
 
 
 # ==========================================================
@@ -164,8 +164,8 @@ def correos(texto):
 
 def direcciones(texto):
     # Desde "Calle" o "Av." hasta el código postal
-    direcciones = re.findall(r"Calle\s[A-Za-zÁÉÍÓÚáéíóúñ0-9,.\s]+C.P.\s[0-9]{5}", texto)
-    direcciones += re.findall(r"Av.\s[A-Za-zÁÉÍÓÚáéíóúñ0-9,.\s]+C.P.\s[0-9]{5}", texto)
+    direcciones = re.findall(r"Calle\s[\w,.\s]+C.P.\s[0-9]{5}", texto)
+    direcciones += re.findall(r"Av.\s[\w,.\s]+C.P.\s[0-9]{5}", texto)
 
     return direcciones
 
@@ -175,7 +175,7 @@ def direcciones(texto):
 # ==========================================================
 
 def urls(texto):
-    return re.findall(r"https://[a-zA-Z0-9./_-]+[a-zA-Z0-9]", texto)
+    return re.findall(r"https://[\w./_-]+[\w]", texto)
 
 
 # ==========================================================
@@ -183,11 +183,16 @@ def urls(texto):
 # ==========================================================
 def nombres(texto):
     
-    nombres = re.findall(r"Dra.\s[A-ZÁÉÍÓÚ][a-záéíóúñ]+\s[A-ZÁÉÍÓÚ][a-záéíóúñ]+\s[A-ZÁÉÍÓÚ][a-záéíóúñ]\b", texto)
+    nombres1 = re.findall(r"Dra[.]\s[A-ZÁÉÍÓÚ]\w+\s[A-ZÁÉÍÓÚ]\w+\s[A-ZÁÉÍÓÚ]\w+\b", texto)
+    nombres1 += re.findall(r"Mtra[.]\s[A-ZÁÉÍÓÚ]\w+\s[A-ZÁÉÍÓÚ]\w+\s[A-ZÁÉÍÓÚ]\w+\b", texto)
+    nombres1 += re.findall(r"\b[A-ZÁÉÍÓÚ]\w+\s[A-ZÁÉÍÓÚ]\w+\s[A-ZÁÉÍÓÚ]\w+\b", texto)
     
-    nombres += re.findall(r"Mtra.\s[A-ZÁÉÍÓÚ][a-záéíóúñ]+\s[A-ZÁÉÍÓÚ][a-záéíóúñ]+\s[A-ZÁÉÍÓÚ][a-záéíóúñ]\b", texto)
-    
-    nombres += re.findall(r"\b[A-ZÁÉÍÓÚ][a-záéíóúñ]+\s[A-ZÁÉÍÓÚ][a-záéíóúñ]+\s[A-ZÁÉÍÓÚ][a-záéíóúñ]+\b", texto)
+    nombres = []
+    for nombre in nombres1:
+        if re.findall(r"\bAv\b", nombre) or re.findall(r"\bCalle\b", nombre) or re.findall(r"\bAlcaldía\b", nombre):
+            continue
+        else:
+            nombres += [nombre]
     return nombres
 
 
