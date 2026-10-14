@@ -155,7 +155,7 @@ def telefonos(texto):
 
 def correos(texto):
     # usuario@dominio.mx / nombre+etiqueta@dominio.com
-    return re.findall(r"[a-zA-Z0-9._+-]+@[a-zA-Z0-9.-]+\.[a-z]+", texto)
+     return re.findall(r"[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+.[a-z]\b", texto)
 
 
 # ==========================================================
@@ -164,8 +164,8 @@ def correos(texto):
 
 def direcciones(texto):
     # Desde "Calle" o "Av." hasta el código postal
-    direcciones = re.findall(r"Calle\s[A-Za-zÁÉÍÓÚáéíóúñ0-9,.\s]+C\.P\.\s[0-9]{5}", texto)
-    direcciones += re.findall(r"Av\.\s[A-Za-zÁÉÍÓÚáéíóúñ0-9,.\s]+C\.P\.\s[0-9]{5}", texto)
+    direcciones = re.findall(r"Calle\s[A-Za-zÁÉÍÓÚáéíóúñ0-9,.\s]+C.P.\s[0-9]{5}", texto)
+    direcciones += re.findall(r"Av.\s[A-Za-zÁÉÍÓÚáéíóúñ0-9,.\s]+C.P.\s[0-9]{5}", texto)
 
     return direcciones
 
@@ -183,11 +183,11 @@ def urls(texto):
 # ==========================================================
 def nombres(texto):
     
-    nombres = re.findall(r"Dra\.\s[A-ZÁÉÍÓÚ][a-záéíóúñ]+\s[A-ZÁÉÍÓÚ][a-záéíóúñ]+\s[A-ZÁÉÍÓÚ][a-záéíóúñ]+", texto)
+    nombres = re.findall(r"Dra.\s[A-ZÁÉÍÓÚ][a-záéíóúñ]+\s[A-ZÁÉÍÓÚ][a-záéíóúñ]+\s[A-ZÁÉÍÓÚ][a-záéíóúñ]\b", texto)
     
-    nombres += re.findall(r"Mtra\.\s[A-ZÁÉÍÓÚ][a-záéíóúñ]+\s[A-ZÁÉÍÓÚ][a-záéíóúñ]+\s[A-ZÁÉÍÓÚ][a-záéíóúñ]+", texto)
+    nombres += re.findall(r"Mtra.\s[A-ZÁÉÍÓÚ][a-záéíóúñ]+\s[A-ZÁÉÍÓÚ][a-záéíóúñ]+\s[A-ZÁÉÍÓÚ][a-záéíóúñ]\b", texto)
     
-    nombres += re.findall(r"\b[A-ZÁÉÍÓÚ][a-záéíóúñ]+\s[A-ZÁÉÍÓÚ][a-záéíóúñ]+\s[A-ZÁÉÍÓÚ][a-záéíóúñ]+", texto)
+    nombres += re.findall(r"\b[A-ZÁÉÍÓÚ][a-záéíóúñ]+\s[A-ZÁÉÍÓÚ][a-záéíóúñ]+\s[A-ZÁÉÍÓÚ][a-záéíóúñ]+\b", texto)
     return nombres
 
 
@@ -197,10 +197,10 @@ def nombres(texto):
 
 def folios(texto):
     # INC-2026-1048, CJ-88-A, PC-SOP-17
-    folios = re.findall(r"\b[A-Z]+-[A-Z0-9-]+\b", texto)
+    folios = re.findall(r"\b[A-Z]+-[A-Z0-9]+-[A-Z0-9]+\b", texto)
 
     # HOGAR15
-    folios += re.findall(r"\b[A-Z]{3,}[0-9]+\b", texto)
+    folios += re.findall(r"\b[A-Z]{3,}[0-9]\b", texto)
 
     return folios
 
