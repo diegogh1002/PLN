@@ -257,8 +257,8 @@ for archivo in archivos:
     print("ARCHIVO:", archivo)
     print("-" * 90)
 
-    print("Tokens:")
-    print(texto)
+    #print("Tokens:")
+    #print(texto)
 
     print("\nHoras encontradas:")
     print(horas(texto))
