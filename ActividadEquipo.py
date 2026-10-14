@@ -22,6 +22,9 @@ def tokenizador3(texto):
             if texto[i] not in delimiters:
                 token = token + texto[i]
 
+    if token != "":
+        tokens += [token]
+
     return tokens
 
 
@@ -122,23 +125,26 @@ def leer_texto(nombre_archivo):
 # DATOS ESPECIALES
 # ==========================================================
 
+def limpiar(token):
+    # Quita signos de puntuación al inicio y al final del token
+    signos = ".,;:“”\""
+
+    while len(token) > 0 and token[0] in signos:
+        token = token[1:]
+
+    while len(token) > 0 and token[-1] in signos:
+        token = token[0:-1]
+
+    return token
+
+
 def horas(tokens):
     horas = []
 
     for token in tokens:
-        hora = ""
+        hora = limpiar(token)
 
-        for i in range(len(token)):
-            if token[i].isnumeric() or token[i] == "+":
-                hora += token[i]
-
-            elif token[i] == ":":
-                hora += token[i]
-
-            else:
-                hora = ""
-
-        if len(hora) == 5:
+        if len(hora) == 5 and hora[2] == ":" and hora[0:2].isnumeric() and hora[3:5].isnumeric():
             horas += [hora]
 
     return horas
@@ -147,21 +153,24 @@ def horas(tokens):
 def fechas(tokens):
     fechas = []
 
+    meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio",
+             "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
+
+    # Fechas numéricas: 05/10/2026 o 06-10-2026
     for token in tokens:
-        fecha = ""
+        fecha = limpiar(token)
 
-        for i in range(len(token)):
-            if token[i].isnumeric():
-                fecha += token[i]
+        if len(fecha) == 10 and (fecha[2] == "/" or fecha[2] == "-") and fecha[5] == fecha[2]:
+            if fecha[0:2].isnumeric() and fecha[3:5].isnumeric() and fecha[6:10].isnumeric():
+                fechas += [fecha]
 
-            elif token[i] == "/" or token[i] == "-":
-                fecha += token[i]
+    # Fechas escritas: 5 de octubre de 2026
+    for i in range(len(tokens) - 4):
+        mes = limpiar(tokens[i + 2])
+        anio = limpiar(tokens[i + 4])
 
-            else:
-                fecha = ""
-
-        if len(fecha) == 10:
-            fechas += [fecha]
+        if tokens[i].isnumeric() and tokens[i + 1] == "de" and mes in meses and tokens[i + 3] == "de" and anio.isnumeric():
+            fechas += [tokens[i] + " de " + mes + " de " + anio]
 
     return fechas
 
@@ -169,17 +178,40 @@ def fechas(tokens):
 def telefonos(tokens):
     telefonos = []
 
-    for i in range(len(tokens) - 2):
+    i = 0
+    while i < len(tokens):
         telefono = ""
+        digitos = 0
+        j = i
 
-        if tokens[i].isnumeric() and tokens[i + 1].isnumeric() and tokens[i + 2].isnumeric():
-            telefono = tokens[i] + tokens[i + 1] + tokens[i + 2]
+        # Junta tokens seguidos que solo tengan dígitos, +, -, ( )
+        while j < len(tokens):
+            parte = limpiar(tokens[j])
+            valido = len(parte) > 0
 
-        elif tokens[i][0] == "+":
-            telefono = tokens[i] + tokens[i + 1] + tokens[i + 2]
+            for c in parte:
+                if c.isnumeric():
+                    digitos += 1
+                elif c != "+" and c != "-" and c != "(" and c != ")":
+                    valido = False
 
-        if len(telefono) >= 10:
+            if valido == False:
+                break
+
+            if telefono != "":
+                telefono += " "
+            telefono += parte
+            j += 1
+
+            # Si traía coma o punto, ahí termina el número
+            if parte != tokens[j - 1]:
+                break
+
+        if digitos >= 10 and digitos <= 12 and telefono != "":
             telefonos += [telefono]
+            i = j
+        else:
+            i += 1
 
     return telefonos
 
@@ -188,49 +220,163 @@ def correos(tokens):
     correos = []
 
     for token in tokens:
-        correo = ""
+        correo = limpiar(token)
+        arroba = False
+        punto = False
 
-        for i in range(len(token)):
-            correo += token[i]
+        for c in correo:
+            if c == "@":
+                arroba = True
+            elif c == "." and arroba:
+                punto = True
 
-        if "@" in correo and "." in correo:
+        if arroba and punto:
             correos += [correo]
 
     return correos
 
 
+# ==========================================================
+# DIRECCIONES
+# ==========================================================
+
 def direcciones(tokens):
     direcciones = []
+    abreviaturas = ["Av.", "Col.", "Depto.", "C.P."]
 
-    for i in range(len(tokens) - 1):
-        direccion = ""
+    for i in range(len(tokens)):
 
-        if tokens[i] == "calle" or tokens[i] == "av." or tokens[i] == "col." or tokens[i] == "depto.":
-            direccion = tokens[i] + " " + tokens[i+1]
+        if tokens[i] == "Calle" or tokens[i] == "Av.":
+            direccion = tokens[i]
 
-        if tokens[i] == "c.p." and tokens[i+1].isnumeric() and len(tokens[i+1]) == 5:
-            direccion = tokens[i] + " " + tokens[i+1]
+            for j in range(i + 1, len(tokens)):
+                letra = tokens[j][0]
 
-        if len(direccion) >= 3:
-            direcciones += [direccion]
+                # Palabra en minúscula (que no sea de/del): ya no es dirección
+                if letra.isupper() == False and letra.isnumeric() == False and tokens[j] != "de" and tokens[j] != "del":
+                    break
+
+                direccion += " " + tokens[j]
+
+                # Punto final (que no sea abreviatura)
+                if tokens[j][-1] == "." and tokens[j] not in abreviaturas:
+                    break
+
+            direcciones += [limpiar(direccion)]
 
     return direcciones
 
+
+# ==========================================================
+# URLS
+# ==========================================================
 
 def urls(tokens):
     urls = []
 
     for token in tokens:
-        url = ""
+        url = limpiar(token)
 
-        for i in range(len(token)):
-            url += token[i]
-
-        if len(url) >= 8:
-            if url[0:8] == "https://":
-                urls += [url]
+        if url[0:8] == "https://":
+            urls += [url]
 
     return urls
+
+
+# ==========================================================
+# NOMBRES
+# ==========================================================
+
+def nombres(tokens):
+    nombres = []
+
+    titulos = ["Dra.", "Mtra.", "Dr.", "Mtro."]
+    palabras_no_nombre = ["Calle", "Alcaldía", "Parque"]
+
+    for i in range(len(tokens) - 2):
+        palabra1 = tokens[i]
+        palabra2 = tokens[i + 1]
+        palabra3 = limpiar(tokens[i + 2])
+
+        valido = palabra1 not in palabras_no_nombre
+
+        # Cada palabra: mayúscula inicial y el resto solo minúsculas
+        for palabra in [palabra1, palabra2, palabra3]:
+            if len(palabra) < 2 or palabra[0].isupper() == False:
+                valido = False
+
+            for c in palabra[1:]:
+                if c.isupper() or c.isnumeric() or c in ".,-@()":
+                    valido = False
+
+        if valido:
+            nombre = palabra1 + " " + palabra2 + " " + palabra3
+
+            if i > 0 and tokens[i - 1] in titulos:
+                nombre = tokens[i - 1] + " " + nombre
+
+            nombres += [nombre]
+
+    return nombres
+
+
+# ==========================================================
+# FOLIOS, CLAVES Y REFERENCIAS
+# ==========================================================
+
+def folios(tokens):
+    folios = []
+
+    for token in tokens:
+        folio = limpiar(token)
+        letras = 0
+        numeros = 0
+        guiones = 0
+        valido = True
+
+        for c in folio:
+            if c.isupper():
+                letras += 1
+            elif c.isnumeric():
+                numeros += 1
+            elif c == "-":
+                guiones += 1
+            else:
+                valido = False
+
+        # Con guion (INC-2026-1048) o letras pegadas a números (HOGAR15)
+        if valido and letras >= 1 and numeros >= 1 and (guiones >= 1 or letras >= 3):
+            folios += [folio]
+
+    return folios
+
+
+# ==========================================================
+# MONTOS
+# ==========================================================
+
+def montos(tokens):
+    montos = []
+
+    for i in range(len(tokens)):
+        monto = limpiar(tokens[i])
+        puntos = 0
+        valido = len(monto) >= 5 and monto[0] == "$" and monto[-3] == "."
+
+        for c in monto[1:]:
+            if c == ".":
+                puntos += 1
+            elif c.isnumeric() == False and c != ",":
+                valido = False
+
+        if valido and puntos == 1:
+
+            if i + 1 < len(tokens) and tokens[i + 1][0:3] == "MXN":
+                monto += " MXN"
+
+            montos += [monto]
+
+    return montos
 
 
 # ==========================================================
@@ -248,7 +394,7 @@ for archivo in archivos:
 
     texto = leer_texto(archivo)
 
-    texto = AMinusculas(texto)
+    #texto = AMinusculas(texto)
 
     texto = tokenizador3(texto)
 
@@ -277,3 +423,12 @@ for archivo in archivos:
 
     print("\nURLs encontradas:")
     print(urls(texto))
+
+    print("\nNombres encontrados:")
+    print(nombres(texto))
+
+    print("\nFolios, claves y referencias encontradas:")
+    print(folios(texto))
+
+    print("\nMontos encontrados:")
+    print(montos(texto))
