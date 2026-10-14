@@ -4,7 +4,7 @@ from lemas_excepciones import lemas_excepciones
 import time
 import tracemalloc
 
-
+"""
 def tokenizador3(texto):
     tokens = []
     token = ""
@@ -27,7 +27,6 @@ def tokenizador3(texto):
         tokens += [token]
 
     return tokens
-
 
 def AMinusculas(texto):
     letras = ''
@@ -113,7 +112,7 @@ def lematizar(palabras):
         texto_lematizado[i] = palabra_lematizada
 
     return texto_lematizado
-
+"""
 
 def leer_texto(nombre_archivo):
     with open(nombre_archivo, "r", encoding="utf-8") as archivo:
@@ -189,7 +188,7 @@ def nombres(texto):
     
     nombres = []
     for nombre in nombres1:
-        if re.findall(r"\bAv\b", nombre) or re.findall(r"\bCalle\b", nombre) or re.findall(r"\bAlcaldía\b", nombre):
+        if re.findall(r"\bAv\b", nombre) or re.findall(r"\bCalle\b", nombre) or re.findall(r"\bAlcaldía\b", nombre) or re.findall(r"\bParque\b", nombre):
             continue
         else:
             nombres += [nombre]
