@@ -145,7 +145,7 @@ def telefonos(texto):
     # 55 7342 9816 / +52 55 6001 4478 / +52 (442) 310-8820 / 800-555-0199 / 01 800 700 2026
     telefonos = re.findall(r"\+?[0-9]{0,2}\s?\(?[0-9]{2,3}\)?[\s-][0-9]{3,4}[\s-][0-9]{4}\b", texto)
 
-    # Quitar el espacio que puede quedar al inicio
+    # Quitamos el espacio que puede quedar al inicio
     for i in range(len(telefonos)):
         if telefonos[i][0] == " " or telefonos[i][0] == "\n":
             telefonos[i] = telefonos[i][1:]
@@ -181,20 +181,13 @@ def urls(texto):
 # ==========================================================
 # NOMBRES
 # ==========================================================
-
 def nombres(texto):
-    palabra = r"[A-ZÁÉÍÓÚ][a-záéíóúñ]+"
-    nombre = r"\b" + palabra + r"\s" + palabra + r"\s" + palabra
-
-    # Con título: Dra. / Mtra.
-    nombres = re.findall(r"[DM]t?ra\.\s" + nombre[2:], texto)
-
-    # Sin título (se quitan lugares y los que ya salieron con título)
-    for n in re.findall(nombre, texto):
-        if ("Dra. " + n not in nombres and "Mtra. " + n not in nombres and
-                "Alcaldía" not in n and "Parque" not in n and "Calle" not in n):
-            nombres += [n]
-
+    
+    nombres = re.findall(r"Dra\.\s[A-ZÁÉÍÓÚ][a-záéíóúñ]+\s[A-ZÁÉÍÓÚ][a-záéíóúñ]+\s[A-ZÁÉÍÓÚ][a-záéíóúñ]+", texto)
+    
+    nombres += re.findall(r"Mtra\.\s[A-ZÁÉÍÓÚ][a-záéíóúñ]+\s[A-ZÁÉÍÓÚ][a-záéíóúñ]+\s[A-ZÁÉÍÓÚ][a-záéíóúñ]+", texto)
+    
+    nombres += re.findall(r"\b[A-ZÁÉÍÓÚ][a-záéíóúñ]+\s[A-ZÁÉÍÓÚ][a-záéíóúñ]+\s[A-ZÁÉÍÓÚ][a-záéíóúñ]+", texto)
     return nombres
 
 
@@ -229,7 +222,7 @@ archivos = ["texto01.txt", "texto02.txt", "texto03.txt"]
 
 print("\n")
 print("=" * 90)
-print("RESULTADOS DE DATOS ESPECIALES")
+print("RESULTADOS DE DATOS")
 print("=" * 90)
 
 for archivo in archivos:
