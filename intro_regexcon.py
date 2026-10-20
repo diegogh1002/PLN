@@ -213,7 +213,7 @@ def folios(texto):
 
 def montos(texto):
     # $18,450.00 MXN
-    return re.findall(r"\$[0-9,]+\.[0-9]{2}\sMXN", texto)
+    return re.findall(r"[$][0-9,]+[.][0-9]{2}\sMXN", texto)
 
 
 # ==========================================================
