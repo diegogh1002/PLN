@@ -136,12 +136,6 @@ def fechas(texto):
 def telefonos(texto):
     # 55 7342 9816 / +52 55 6001 4478 / +52 (442) 310-8820 / 800-555-0199 / 01 800 700 2026
     telefonos = re.findall(r"[+]?[0-9]{0,2}\s?[(]?[0-9]{2,3}[)]?[\s-][0-9]{3,4}[\s-][0-9]{4}\b", texto)
-
-    # Quitamos el espacio que puede quedar al inicio
-    for i in range(len(telefonos)):
-        if telefonos[i][0] == " " or telefonos[i][0] == "\n":
-            telefonos[i] = telefonos[i][1:]
-
     return telefonos
 
 
@@ -237,11 +231,13 @@ for archivo in archivos:
     #print(texto)
 
     print("\nHoras encontradas:")
-    print(horas(texto))
-
+    #print(horas(texto))
+    horas(texto)
+    
     print("\nFechas encontradas:")
-    print(fechas(texto))
-
+    #print(fechas(texto))
+    fechas(texto)
+    
     print("\nTeléfonos encontrados:")
     print(telefonos(texto))
 
