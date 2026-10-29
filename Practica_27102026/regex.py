@@ -150,8 +150,8 @@ def correos(texto):
 
 def direcciones(texto):
     # Desde "Calle" o "Av." hasta el código postal
-    direcciones = re.findall(r"Calle\s[\w,.\s]+C.P.\s[0-9]{5}", texto)
-    direcciones += re.findall(r"Av.\s[\w,.\s]+C.P.\s[0-9]{5}", texto)
+    direcciones = re.findall(r"Calle\s[\w,.\s]+[C.P.]\s[0-9]{5}", texto)
+    direcciones += re.findall(r"Av.\s[\w,.\s]+[C.P.]\s[0-9]{5}", texto)
 
     return direcciones
 
