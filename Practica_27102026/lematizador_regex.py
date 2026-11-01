@@ -153,7 +153,7 @@ def leer_texto(nombre_archivo):
 
 def horas(texto):
     # 08:35
-    print(re.search(r"\b[0-9]{2}:[0-9]{2}\b", texto).group())
+    print(re.findall(r"\b[0-9]{2}:[0-9]{2}\b", texto))
 
 
 def fechas(texto):
@@ -176,8 +176,8 @@ def correos(texto):
 
 def direcciones(texto):
     # Desde "Calle" o "Av." hasta el código postal
-    direcciones = re.findall(r"Calle\s[\w,.\s]+C.P.\s[0-9]{5}", texto)
-    direcciones += re.findall(r"Av.\s[\w,.\s]+C.P.\s[0-9]{5}", texto)
+    direcciones = re.findall(r"Calle\s[\w,.\s]+C\.P\.\s[0-9]{5}", texto)
+    direcciones += re.findall(r"Av\.\s[\w,.\s]+C\.P\.\s[0-9]{5}", texto)
 
     return direcciones
 
@@ -195,8 +195,8 @@ def urls(texto):
 # ==========================================================
 def nombres(texto):
     
-    nombres1 = re.findall(r"Dra[.]\s[A-ZÁÉÍÓÚ]\w+\s[A-ZÁÉÍÓÚ]\w+\s[A-ZÁÉÍÓÚ]\w+\b", texto)
-    nombres1 += re.findall(r"Mtra[.]\s[A-ZÁÉÍÓÚ]\w+\s[A-ZÁÉÍÓÚ]\w+\s[A-ZÁÉÍÓÚ]\w+\b", texto)
+    nombres1 = re.findall(r"Dra[\.]\s[A-ZÁÉÍÓÚ]\w+\s[A-ZÁÉÍÓÚ]\w+\s[A-ZÁÉÍÓÚ]\w+\b", texto)
+    nombres1 += re.findall(r"Mtra[\.]\s[A-ZÁÉÍÓÚ]\w+\s[A-ZÁÉÍÓÚ]\w+\s[A-ZÁÉÍÓÚ]\w+\b", texto)
     nombres1 += re.findall(r"\b[A-ZÁÉÍÓÚ]\w+\s[A-ZÁÉÍÓÚ]\w+\s[A-ZÁÉÍÓÚ]\w+\b", texto)
     
     nombres = []
@@ -226,7 +226,7 @@ def folios(texto):
 
 def montos(texto):
     # $18,450.00 MXN
-    return re.findall(r"[$][0-9,?]+[.][0-9]{2}\s?MXN", texto)
+    return re.findall(r"[$][0-9,?]+[\.][0-9]{2}\s?MXN", texto)
 
 
 # ==========================================================
