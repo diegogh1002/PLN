@@ -18,11 +18,11 @@ def leer_texto(nombre_archivo):
 
 def horas(texto):
     # 08:35
-    print(re.search(r"\b[0-9]{2}:[0-9]{2}\b", texto).group())
+    return re.findall(r"\b[0-9]{2}:[0-9]{2}\b", texto)
 
 
 def fechas(texto):
-    print(re.search(r"((?:\b[0-9]{2}[/-][0-9]{2}[/-][0-9]{4}\b)|(?:\b[0-9]{1,2}\sde\s[a-z]+\sde\s[0-9]{4}\b))",texto).group())
+    return re.findall(r"((?:\b[0-9]{2}[/-][0-9]{2}[/-][0-9]{4}\b)|(?:\b[0-9]{1,2}\sde\s[a-z]+\sde\s[0-9]{4}\b))", texto)
 
 def telefonos(texto):
     # 55 7342 9816 / +52 55 6001 4478 / +52 (442) 310-8820 / 800-555-0199 / 01 800 700 2026
@@ -122,12 +122,12 @@ for archivo in archivos:
     #print(texto)
 
     print("\nHoras encontradas:")
-    #print(horas(texto))
-    horas(texto)
+    print(horas(texto))
+    #horas(texto)
     
     print("\nFechas encontradas:")
-    #print(fechas(texto))
-    fechas(texto)
+    print(fechas(texto))
+    #fechas(texto)
     
     print("\nTeléfonos encontrados:")
     print(telefonos(texto))

@@ -153,7 +153,8 @@ def leer_texto(nombre_archivo):
 
 def horas(texto):
     # 08:35
-    print(re.findall(r"\b[0-9]{2}:[0-9]{2}\b", texto))
+     return re.findall(r"\b[0-9]{2}:[0-9]{2}\b", texto)
+     
 
 
 def fechas(texto):
