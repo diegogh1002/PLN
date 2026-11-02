@@ -179,5 +179,5 @@ for archivo in archivos:
     print("-" * 90)
     print("ARCHIVO:", archivo)
     print("-" * 90)
-    
+
     
