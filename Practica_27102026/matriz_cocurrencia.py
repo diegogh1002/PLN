@@ -207,8 +207,8 @@ def print_coocurrencia(tokens, distancia):
 # PROGRAMA PRINCIPAL
 # ==========================================================
 
-#archivos = ["texto01.txt", "texto02.txt", "texto03.txt"]
-archivos = ["texto04.txt"]
+archivos = ["texto01.txt", "texto02.txt", "texto03.txt"]
+
 
 print("\n")
 print("=" * 90)
