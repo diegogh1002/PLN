@@ -11,10 +11,11 @@ def tokenizador3(texto):
 
     delimiters = string.whitespace 
 
-    if re.search(r"\W",texto[-1]):
-        texto = texto + '.'
+    #if re.search(r"\W",texto[-1]):
+        #texto = texto + '.'
 
-    tokens = re.findall(r"(?:\w|\d|[-/_@:\.])+", texto)
+    tokens = re.findall(r"(?:\w|\d|[,/_@:\.-])+", texto)
+    #tokens = re.findall(r"(?:\w|\d)(?:\w|\d|[,/_@:\.-])+(?:\w|\d)|\w+", texto)
 
     return tokens
     
@@ -78,11 +79,11 @@ def aplicar_reglas(palabra):
     if re.search(r"án$", palabra) and n > 4:
         return palabra[0:n-2]
 
-    if re.search(r"es$", palabra) and n > 3:
-        return palabra[0:n-2]
+    #if re.search(r"es$", palabra) and n > 3:
+        #return palabra[0:n-2]
 
     if re.search(r"s$", palabra) and n > 1:
-        return palabra[0:n-1]
+        return palabra[0:n]
 
     if re.search(r"é$", palabra) and n > 4:
         return palabra[0:n-1]
@@ -90,9 +91,9 @@ def aplicar_reglas(palabra):
     if re.search(r"á$", palabra) and n > 4:
         return palabra[0:n-1]
     
-    if re.search(r"(\.|,)$", palabra):
-        palabra = re.search(r"((?:\w|\d|[-/_@:\.])?+(?:\w|\d))|\w", palabra).group()
-
+    if re.search(r"^(\w|\d)", palabra) and re.search(r"(\.|,)$", palabra):
+        palabra = re.search(r"(?:\w|\d|[/_@+,:\.-])+(?:\w|\d)|\w+", palabra).group()
+    
     return palabra
     
 
@@ -120,11 +121,94 @@ def leer_texto(nombre_archivo):
         texto = archivo.read()
     return texto
 
+
+#==================================================================
+def construir_indice(tokens):
+    indice = {}
+
+    i = 0
+
+    while i < len(tokens):
+        palabra = tokens[i]
+
+        if palabra not in indice:
+            indice[palabra] = len(indice)
+            
+        i += 1
+
+    return indice
+
+#==================================================================
+def construir_coocurrencia(tokens, indice, distancia):
+    n = len(indice)
+
+    matriz = [
+        [0] * n
+        for _ in range(n)
+    ]
+
+    i = 0
+
+    while i < len(tokens):
+        inicio = i - distancia
+
+        if inicio < 0:
+            inicio = 0
+
+        fin = i + distancia
+
+        if fin >= len(tokens):
+            fin = len(tokens) - 1
+
+        j = inicio
+
+        while j <= fin:
+            if i != j:
+                fila = indice[tokens[i]]
+                columna = indice[tokens[j]]
+
+                matriz[fila][columna] += 1
+
+            j += 1
+
+        i += 1
+
+    return matriz
+
+
+
+def print_coocurrencia(tokens, distancia):
+    indice = construir_indice(tokens)
+    
+    vocabulario = [None] * len(indice)
+    
+    for palabra in indice:
+        vocabulario[indice[palabra]] = palabra
+        
+    matriz = construir_coocurrencia(
+        tokens,
+        indice,
+        distancia
+    )
+    
+    print(vocabulario)
+    
+    i = 0
+    
+    while i < len(matriz):
+        print(
+            vocabulario[i],
+            matriz[i]
+        )
+        
+    i += 1
+
 # ==========================================================
 # PROGRAMA PRINCIPAL
 # ==========================================================
 
-archivos = ["texto01.txt", "texto02.txt", "texto03.txt"]
+#archivos = ["texto01.txt", "texto02.txt", "texto03.txt"]
+archivos = ["texto04.txt"]
 
 print("\n")
 print("=" * 90)
@@ -140,11 +224,13 @@ for archivo in archivos:
     texto = ciclo_AMinusculas(texto)
     
     texto = lematizar(texto)
-
     
     print("\n")
     print("-" * 90)
     print("ARCHIVO:", archivo)
     print("-" * 90)
+    
+    print_coocurrencia(texto, 2)
+
 
     
