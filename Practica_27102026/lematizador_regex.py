@@ -96,6 +96,7 @@ def eliminador_stopwords(tokens):
 def aplicar_reglas(palabra):
     n = len(palabra)
 
+    
     if re.search(r"iendo$", palabra) and n > 6:
         return palabra[0:n-5] + "er"
 
@@ -128,8 +129,10 @@ def aplicar_reglas(palabra):
 
     if re.search(r"á$", palabra) and n > 4:
         return palabra[0:n-1]
-
+    
     return palabra
+    
+
 
 def lematizador_reglas_excepciones(palabra):
     if palabra in lemas_excepciones:
@@ -140,7 +143,7 @@ def lematizador_reglas_excepciones(palabra):
 
 
 def lematizar(palabras):
-    texto_lematizado = [None] * len(palabras)
+    texto_lematizado = [None] * len(palabras) 
 
     for i in range(len(palabras)):
         palabra_lematizada = lematizador_reglas_excepciones(palabras[i])
@@ -172,6 +175,8 @@ for archivo in archivos:
     texto = tokenizador3(texto)
     
     texto = ciclo_AMinusculas(texto)
+    
+    texto = lematizar(texto)
 
     texto = eliminador_stopwords(texto)
     

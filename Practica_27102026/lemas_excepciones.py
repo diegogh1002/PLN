@@ -872,4 +872,9 @@ lemas_excepciones = {
     "saludables": "saludable",
     "nutrientes": "nutriente",
     "diferentes": "diferente",
+    
+    # =========================================================
+        # direcciones
+    "av." : "avenida",
+    "col." : "colonia"
 }
