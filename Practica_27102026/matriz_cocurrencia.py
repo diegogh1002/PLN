@@ -166,17 +166,15 @@ def construir_coocurrencia(tokens, indice, distancia):
             if i != j:
                 fila = indice[tokens[i]]
                 columna = indice[tokens[j]]
-
                 matriz[fila][columna] += 1
-
             j += 1
-
+    
         i += 1
 
     return matriz
 
 
-
+#==================================================================
 def print_coocurrencia(tokens, distancia):
     indice = construir_indice(tokens)
     
@@ -197,17 +195,17 @@ def print_coocurrencia(tokens, distancia):
     
     while i < len(matriz):
         print(
-            vocabulario[i],
+            vocabulario[i].ljust(12),
             matriz[i]
         )
-        
-    i += 1
+        i += 1
 
 # ==========================================================
 # PROGRAMA PRINCIPAL
 # ==========================================================
 
-archivos = ["texto01.txt", "texto02.txt", "texto03.txt"]
+#archivos = ["texto01.txt", "texto02.txt", "texto03.txt"]
+archivos = ["texto01.txt"]
 
 
 print("\n")
@@ -230,7 +228,7 @@ for archivo in archivos:
     print("ARCHIVO:", archivo)
     print("-" * 90)
     
-    print_coocurrencia(texto, 2)
+    print_coocurrencia(texto, 1)
 
 
     
