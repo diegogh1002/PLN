@@ -284,9 +284,9 @@ print("=" * 90)
 
 for archivo in archivos:
 
-    texto_original = leer_texto(archivo)
+    texto_ = leer_texto(archivo)
 
-    texto = procesar_texto(texto_original)
+    texto = procesar_texto(texto)
 
     print("\n")
     print("-" * 90)
@@ -298,35 +298,19 @@ for archivo in archivos:
             distancia = int(input("\nIngrese la distancia de coocurrencia: "))
 
             if 1 <= distancia <= 5:
-
-                matriz, vocabulario, indice = print_coocurrencia(
-                    texto,
-                    distancia
-                )
-
+                matriz, vocabulario, indice = print_coocurrencia(texto,distancia)
+                
                 while True:
-
                     palabra_original = input("\nIngrese la palabra: ")
-
                     tokens_busqueda = procesar_texto(palabra_original)
-
                     if len(tokens_busqueda) != 1:
                         print("Ingrese únicamente una palabra.")
                         continue
 
                     palabra = tokens_busqueda[0]
-
                     print("\nPalabra lematizada:", palabra)
-
-                    valor = buscar_palabra(
-                        matriz,
-                        vocabulario,
-                        palabra,
-                        indice
-                    )
-
+                    valor = buscar_palabra(matriz,vocabulario,palabra,indice)
                     if valor is not None:
-
                         print("\nPalabras cercanas:")
                         encontrada = False
 
@@ -337,32 +321,17 @@ for archivo in archivos:
 
                         if not encontrada:
                             print("No tiene palabras relacionadas.")
-
+                            
                     else:
-
                         print("\nLa palabra no existe en el vocabulario.")
-
-                        respuesta = input(
-                            "¿Desea agregarla? (s/n): "
-                        ).lower()
+                        respuesta = input("¿Desea agregarla? (s/n): ").lower()
 
                         if respuesta == "s":
+                            texto_original, texto, matriz, vocabulario, indice = agregar_palabra(texto_original,palabra_original,distancia)
 
-                            texto_original, texto, matriz, vocabulario, indice = agregar_palabra(
-                                texto_original,
-                                palabra_original,
-                                distancia
-                            )
-
-                            valor = buscar_palabra(
-                                matriz,
-                                vocabulario,
-                                palabra,
-                                indice
-                            )
+                            valor = buscar_palabra(matriz,vocabulario,palabra,indice)
 
                             if valor is not None:
-
                                 print("\nPalabras cercanas:")
                                 encontrada = False
 
@@ -374,15 +343,11 @@ for archivo in archivos:
                                 if not encontrada:
                                     print("No tiene palabras relacionadas.")
 
-                    continuar = input(
-                        "\n¿Desea buscar otra palabra? (s/n): "
-                    ).lower()
+                    continuar = input("\n¿Desea buscar otra palabra? (s/n): ").lower()
 
                     if continuar != "s":
                         break
-
                 break
-
             else:
                 print("Por favor, ingrese un número entre 1 y 5.")
 
