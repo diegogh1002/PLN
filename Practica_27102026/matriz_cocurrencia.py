@@ -205,7 +205,7 @@ def print_coocurrencia(tokens, distancia):
 # ==========================================================
 
 #archivos = ["texto01.txt", "texto02.txt", "texto03.txt"]
-archivos = ["texto01.txt"]
+archivos = ["textoprueba.txt"]
 
 
 print("\n")
@@ -228,7 +228,24 @@ for archivo in archivos:
     print("ARCHIVO:", archivo)
     print("-" * 90)
     
-    print_coocurrencia(texto, 1)
-
-
-    
+    while True:
+        try:
+            distancia = int(input("\nIngrese la distancia de coocurrencia : "))
+            if 1 <= distancia <= 5:
+                print_coocurrencia(texto, distancia)
+                while True:
+                        try:
+                            palabra = int(input("\nIngrese la palabra : "))
+                            if 1 <= distancia <= 5:
+                                print_coocurrencia(texto, distancia)
+                                
+                                break
+                            else:
+                                print("Por favor, ingrese un número entre 1 y 5.")
+                        except ValueError:
+                            print("Entrada inválida. Por favor, ingrese un número entero.")
+                break
+            else:
+                print("Por favor, ingrese un número entre 1 y 5.")
+        except ValueError:
+            print("Entrada inválida. Por favor, ingrese un número entero.")
