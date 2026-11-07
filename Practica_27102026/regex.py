@@ -1,6 +1,6 @@
 import string
 import re
-from lemas_excepciones import lemas_excepciones
+from lematizador_regex.lemas_excepciones import lemas_excepciones
 import time
 import tracemalloc
 
@@ -109,17 +109,10 @@ for archivo in archivos:
 
     texto = leer_texto(archivo)
 
-    #texto = AMinusculas(texto)
-
-    #texto = tokenizador3(texto)
-
     print("\n")
     print("-" * 90)
     print("ARCHIVO:", archivo)
     print("-" * 90)
-
-    #print("Tokens:")
-    #print(texto)
 
     print("\nHoras encontradas:")
     print(horas(texto))

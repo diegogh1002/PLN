@@ -165,3 +165,12 @@ def tokenizadoregex(archivo):
     texto = eliminador_stopwords(texto)
     
     return texto
+
+def tokenizadoregextexto(texto):
+
+    texto = tokenizador3(texto)
+    texto = ciclo_AMinusculas(texto)
+    texto = lematizar(texto)
+    texto = eliminador_stopwords(texto)
+
+    return texto
