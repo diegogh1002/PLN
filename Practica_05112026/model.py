@@ -1,8 +1,7 @@
+from lematizador_regex.lematizador_regex import tokenizadoregex
 # ==========================================================
 # PROGRAMA PRINCIPAL
 # ==========================================================
-
-from Practica_2720226.lematizador_regex.lematizador_regex import tokenizadoregex
 
 documentos = ["texto01.txt", "texto02.txt", "texto03.txt"]
 
