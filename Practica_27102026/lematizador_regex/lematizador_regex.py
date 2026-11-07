@@ -1,6 +1,6 @@
 import re
 import string
-from lemas_excepciones import lemas_excepciones
+from lematizador_regex.lemas_excepciones import lemas_excepciones
 import time
 import tracemalloc
     

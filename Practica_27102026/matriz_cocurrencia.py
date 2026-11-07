@@ -1,4 +1,4 @@
-from Practica_27102026.lematizador_regex.lematizador_regex import tokenizadoregex
+from lematizador_regex.lematizador_regex import tokenizadoregex
 #==================================================================
 def construir_indice(tokens):
     indice = {}
