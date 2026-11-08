@@ -22,8 +22,9 @@ def matriz_bag_words(corpus, vector_unico):
         #Cuantas veces se repite la palabra en el documento
         j = 0
         for pal_unico in vector_unico:
-            if corpus[i] == pal_unico:
-                matriz_bow[i][j] = matriz_bow[i][j] + 1
+            for palabra in corpus[i]:
+                if palabra == pal_unico:
+                    matriz_bow[i][j] = matriz_bow[i][j] + 1
             j += 1
     return matriz_bow
 
@@ -50,6 +51,8 @@ print("MATRIZ BAG OF WORDS:", X)
 
 #Vector de etiquetas
 y = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4]  # Etiquetas para cada documento
+nombres_clases = ["deportes", "tecnologia", "cocina", "salud", "economia"]
+
 
 #Cargar Modelo
 modelo = MultinomialNB()
@@ -68,4 +71,4 @@ for documento in documentos_prueba:
 
 #Predicción de la categoría del documento
     prediccion = modelo.predict(nuevo_vector)
-    print(f"Documento: {documento}, Predicción de categoría: {prediccion[0]}")
+    print(f"Documento: {documento}, Predicción de categoría: {prediccion[0]}-{nombres_clases[prediccion[0]]}")
