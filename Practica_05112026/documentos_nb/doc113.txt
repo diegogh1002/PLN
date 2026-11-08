@@ -1,0 +1,1 @@
+La empresa lanzó una aplicación que usa inteligencia artificial para analizar datos. El código corre en un servidor en la nube con conexión a internet. Los programadores mejoraron la seguridad del software y la computadora del usuario necesita poca memoria. La tecnología avanza muy rápido.
