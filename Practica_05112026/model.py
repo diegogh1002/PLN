@@ -38,15 +38,18 @@ corpus = []
 for archivo in documentos_train:
     doctokenizado = tokenizadoregex(archivo)
     #print("TEXTO TOKENIZADO:", doctokenizado)
-    corpus += doctokenizado
+    corpus += [doctokenizado]
 
-corpus_entrenamiento = corpus
-print("CORPUS ENTRENAMIENTO:", corpus_entrenamiento)
+print("CORPUS:", corpus)
 
+corpus_entrenamiento = []
+for i in range(len(corpus)):
+    corpus_entrenamiento += corpus[i]
+    
 vector_unico = eliminador_palabras_repetidas(corpus_entrenamiento)
 print("VECTOR UNICO:", vector_unico)
 
-X = matriz_bag_words(corpus_entrenamiento, vector_unico)
+X = matriz_bag_words(corpus, vector_unico)
 print("MATRIZ BAG OF WORDS:", X)
 
 #Vector de etiquetas
