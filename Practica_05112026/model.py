@@ -28,6 +28,8 @@ def matriz_bag_words(corpus, vector_unico):
     return matriz_bow
 
 
+
+
 #==================================================================
 documentos_train = ["doc001.txt", "doc002.txt", "doc111.txt", "doc112.txt", "doc221.txt", "doc222.txt", "doc331.txt", "doc332.txt", "doc441.txt", "doc442.txt"]
 
