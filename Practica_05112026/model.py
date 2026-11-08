@@ -23,7 +23,7 @@ def matriz_bag_words(corpus, vector_unico):
         j = 0
         for pal_unico in vector_unico:
             if corpus[i] == pal_unico:
-                matriz_bow[i][j] += matriz_bow[i][j] + 1
+                matriz_bow[i][j] = matriz_bow[i][j] + 1
             j += 1
     return matriz_bow
 
@@ -36,7 +36,7 @@ corpus = []
 
 for archivo in documentos_train:
     doctokenizado = tokenizadoregex(archivo)
-    print("TEXTO TOKENIZADO:", doctokenizado)
+    #print("TEXTO TOKENIZADO:", doctokenizado)
     corpus += doctokenizado
 
 corpus_entrenamiento = corpus
