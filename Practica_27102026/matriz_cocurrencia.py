@@ -1,4 +1,3 @@
-
 from lematizador_regex.lematizador_regex import tokenizadoregex, tokenizadoregextexto
 import numpy as np
 
@@ -16,7 +15,7 @@ def construir_indice(tokens):
     return indice
 
 #==================================================================
-def construir_coocurrencia(tokens, indice, distancia, vocabulario):
+def construir_coocurrencia(tokens, distancia, vocabulario, indice):
     matriz = np.zeros((len(vocabulario), len(vocabulario)),dtype=np.int32)
     i = 0
 
@@ -43,7 +42,7 @@ def print_coocurrencia(tokens, distancia):
     for palabra in indice:
         vocabulario[indice[palabra]] = palabra
 
-    matriz = construir_coocurrencia(tokens, indice, distancia, vocabulario)
+    matriz = construir_coocurrencia(tokens, distancia, vocabulario, indice)
 
     print(vocabulario)
 
@@ -52,7 +51,7 @@ def print_coocurrencia(tokens, distancia):
     return matriz, vocabulario, indice
 
 #==================================================================
-def buscar_palabra(matriz, vocabulario, palabra, indice):
+def buscar_palabra(matriz, palabra, indice):
     if palabra in indice:
         return matriz[indice[palabra]]
     return None
@@ -78,7 +77,7 @@ def agregar_palabra(texto_original, palabra_original, distancia):
         texto_original, distancia
     )
 
-    return texto_original, texto_original, matriz, vocabulario, indice
+    return texto_original, matriz, vocabulario, indice
 
 #==================================================================
 # PROGRAMA PRINCIPAL
@@ -103,7 +102,7 @@ for archivo in archivos:
 
         print("\nPalabra lematizada:", palabra)
 
-        valor = buscar_palabra(matriz, vocabulario, palabra, indice)
+        valor = buscar_palabra(matriz, palabra, indice)
 
         if valor is None:
 
@@ -112,10 +111,10 @@ for archivo in archivos:
             respuesta = input("¿Desea agregarla? (s/n): ").lower()
 
             if respuesta == "s":
-                texto, texto, matriz, vocabulario, indice = agregar_palabra(
+                texto, matriz, vocabulario, indice = agregar_palabra(
                     texto, palabra_original, distancia
                 )
-                valor = buscar_palabra(matriz, vocabulario, palabra, indice)
+                valor = buscar_palabra(matriz, palabra, indice)
 
         if valor is not None:
             print("\nPalabras cercanas:")
