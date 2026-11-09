@@ -876,5 +876,26 @@ lemas_excepciones = {
     # =========================================================
         # direcciones
     "av." : "avenida",
-    "col." : "colonia"
+    "col." : "colonia",
+    
+    # =========================================================
+    # PALABRAS INVARIABLES O TERMINADAS EN S
+    # =========================================================
+    "lunes": "lunes",
+    "martes": "martes",
+    "miércoles": "miércoles",
+    "jueves": "jueves",
+    "viernes": "viernes",
+    "análisis": "análisis",
+    "crisis": "crisis",
+    "tesis": "tesis",
+    "dosis": "dosis",
+    "síntesis": "síntesis",
+    "hipótesis": "hipótesis",
+    "paréntesis": "paréntesis",
+    "virus": "virus",
+    "más": "más",
+    "menos": "menos",
+    "después": "después",
+    "antes": "antes"
 }
