@@ -73,9 +73,7 @@ def agregar_palabra(texto_original, palabra_original, distancia):
     print("\nFrase tokenizada y lematizada:")
     print(nuevos_tokens)
 
-    matriz, vocabulario, indice = print_coocurrencia(
-        texto_original, distancia
-    )
+    matriz, vocabulario, indice = print_coocurrencia(texto_original, distancia) 
 
     return texto_original, matriz, vocabulario, indice
 
@@ -111,9 +109,7 @@ for archivo in archivos:
             respuesta = input("¿Desea agregarla? (s/n): ").lower()
 
             if respuesta == "s":
-                texto, matriz, vocabulario, indice = agregar_palabra(
-                    texto, palabra_original, distancia
-                )
+                texto, matriz, vocabulario, indice = agregar_palabra(texto, palabra_original, distancia)
                 valor = buscar_palabra(matriz, palabra, indice)
 
         if valor is not None:
