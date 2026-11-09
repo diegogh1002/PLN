@@ -1,28 +1,37 @@
 
 from lematizador_regex.lematizador_regex import tokenizadoregex, tokenizadoregextexto
+import numpy as np
 
 #==================================================================
 def construir_indice(tokens):
     indice = {}
-    for palabra in tokens:
+    i = 0
+
+    while i < len(tokens):
+        palabra = tokens[i]
         if palabra not in indice:
             indice[palabra] = len(indice)
+        i += 1
+
     return indice
 
 #==================================================================
-def construir_coocurrencia(tokens, indice, distancia):
-    n = len(indice)
-    matriz = [[0] * n for _ in range(n)]
+def construir_coocurrencia(tokens, indice, distancia, vocabulario):
+    matriz = np.zeros((len(vocabulario), len(vocabulario)),dtype=np.int32)
+    i = 0
 
-    for i in range(len(tokens)):
+    while i < len(tokens):
         inicio = max(0, i - distancia)
         fin = min(len(tokens) - 1, i + distancia)
+        j = inicio
 
-        for j in range(inicio, fin + 1):
+        while j <= fin:
             if i != j:
                 fila = indice[tokens[i]]
                 columna = indice[tokens[j]]
-                matriz[fila][columna] += 1
+                matriz[fila, columna] += 1
+            j += 1
+        i += 1
 
     return matriz
 
@@ -34,12 +43,11 @@ def print_coocurrencia(tokens, distancia):
     for palabra in indice:
         vocabulario[indice[palabra]] = palabra
 
-    matriz = construir_coocurrencia(tokens, indice, distancia)
+    matriz = construir_coocurrencia(tokens, indice, distancia, vocabulario)
 
     print(vocabulario)
 
-    for i in range(len(matriz)):
-        print(vocabulario[i].ljust(12), matriz[i])
+    print(matriz)
 
     return matriz, vocabulario, indice
 
